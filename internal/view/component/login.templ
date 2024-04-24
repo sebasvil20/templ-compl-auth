@@ -1,18 +1,48 @@
 package component
 
 templ LoginForm() {
-    <form class="space-y-4 md:space-y-6 hidden" action="/v1/api/login" method="POST" id="login-form">
-       <div>
-          <label for="email" class="block mb-2 text-sm font-medium text-white">Your email</label>
-          <input type="email" name="email" class="border sm:text-sm rounded-lg block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500" placeholder="name@company.com" required />
-       </div>
-       <div>
-          <label for="password" class="block mb-2 text-sm font-medium text-white">Password</label>
-          <input type="password" name="password" placeholder="••••••••" class="border sm:text-sm rounded-lg block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500" required />
-       </div>
-       <button type="submit" class="w-full text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-blue-600 hover:bg-blue-700 focus:ring-blue-800">Login</button>
-       <p class="text-sm font-light text-gray-400">
-          Don’t have an account yet? <button type="button" onclick="switchForms()" class="font-medium hover:underline text-blue-500">Sign up</button>
-       </p>
+    <form
+    	class="space-y-4 md:space-y-6 hidden"
+    	action="/v1/api/login"
+    	method="POST"
+    	id="login-form"
+    >
+    	<div>
+    		<label for="email" class="label label-text">
+    			Your email
+    		</label>
+    		<input
+    			type="email"
+    			name="email"
+    			placeholder="name@company.com"
+    			required
+    			class="input input-bordered w-full"
+    		/>
+    	</div>
+    	<div>
+    		<label for="password" class="label label-text">
+    			Password
+    		</label>
+    		<input
+    			type="password"
+    			name="password"
+    			placeholder="••••••••"
+    			required
+    			class="input input-bordered w-full"
+    		/>
+    	</div>
+    	<button type="submit" class="w-full btn btn-primary">
+    		Login
+    	</button>
+    	<p class="text-sm font-light text-gray-300">
+    		Don’t have an account yet?
+    		<button
+    			type="button"
+    			onclick="switchForms()"
+    			class="font-medium hover:underline text-secondary"
+    		>
+    			Sign up
+    		</button>
+    	</p>
     </form>
 }

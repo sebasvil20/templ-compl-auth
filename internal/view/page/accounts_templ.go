@@ -34,7 +34,7 @@ func Accounts() templ.Component {
 				templ_7745c5c3_Buffer = templ.GetBuffer()
 				defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<section class=\"bg-gray-900\"><div class=\"flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0\"><div class=\"w-full rounded-lg shadow border md:mt-0 sm:max-w-md xl:p-0 bg-gray-800 border-gray-700\"><div class=\"p-6 space-y-4 md:space-y-6 sm:p-8\"><h1 id=\"signup-title\" class=\"text-xl font-bold leading-tight tracking-tight md:text-2xl text-white\">Create a new account</h1><h1 id=\"login-title\" class=\"text-xl font-bold leading-tight tracking-tight md:text-2xl text-white hidden\">Login into your account</h1><div class=\"error-message hidden p-2 mt-4 text-center text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400\" role=\"alert\"><p class=\"font-medium\"></p></div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<section class=\"flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0\"><div class=\"card w-full bg-base-200 shadow-xl rounded-lg md:mt-0 sm:max-w-md xl:p-0\"><div class=\"p-6 space-y-4 md:space-y-6 sm:p-8\"><h1 id=\"signup-title\" class=\"text-xl font-bold leading-tight tracking-tight md:text-2xl text-center\">Create a new account</h1><h1 id=\"login-title\" class=\"hidden text-xl font-bold leading-tight tracking-tight md:text-2xl text-center\">Login into your account</h1><div role=\"alert\" class=\"alert alert-error error-message hidden\"><svg xmlns=\"http://www.w3.org/2000/svg\" class=\"stroke-current shrink-0 h-6 w-6\" fill=\"none\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z\"></path></svg> <span></span></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -46,7 +46,7 @@ func Accounts() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div></div></section>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div></section>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -63,7 +63,7 @@ func Accounts() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<script>\n        const signupForm = document.querySelector(\"#signup-form\");\n        const loginForm = document.querySelector(\"#login-form\");\n        const loginTitle = document.querySelector(\"#login-title\");\n        const signupTitle = document.querySelector('#signup-title');\n\n        function switchForms() {\n            signupForm.classList.toggle('hidden');\n            loginForm.classList.toggle('hidden');\n\n            loginTitle.classList.toggle('hidden');\n            signupTitle.classList.toggle('hidden');\n        }\n    </script>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<script>\n        const signupForm = document.querySelector(\"#signup-form\");\n        const loginForm = document.querySelector(\"#login-form\");\n        const loginTitle = document.querySelector(\"#login-title\");\n        const signupTitle = document.querySelector('#signup-title');\n        const errorMessage = document.querySelector(\".error-message\");\n\n        function switchForms() {\n            signupForm.classList.toggle('hidden');\n            loginForm.classList.toggle('hidden');\n\n            loginTitle.classList.toggle('hidden');\n            signupTitle.classList.toggle('hidden');\n\n            if (!errorMessage.classList.contains(\"hidden\")) {\n               errorMessage.classList.toggle(\"hidden\");\n            }\n        }\n    </script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -76,8 +76,8 @@ func Accounts() templ.Component {
 
 func handleFormSubmit() templ.ComponentScript {
 	return templ.ComponentScript{
-		Name: `__templ_handleFormSubmit_2a05`,
-		Function: `function __templ_handleFormSubmit_2a05(){document.addEventListener("DOMContentLoaded", function () {
+		Name: `__templ_handleFormSubmit_0606`,
+		Function: `function __templ_handleFormSubmit_0606(){document.addEventListener("DOMContentLoaded", function () {
        const signinForm = document.getElementById("signup-form");
        const loginForm = document.getElementById("login-form");
        const errorMessage = document.querySelector(".error-message");
@@ -87,7 +87,6 @@ func handleFormSubmit() templ.ComponentScript {
 
            const form = event.target;
            const formData = new FormData(form);
-           console.log(formData);
            fetch(form.action, {
                method: form.method,
                body: formData,
@@ -109,7 +108,7 @@ func handleFormSubmit() templ.ComponentScript {
                        if (errorMessage.classList.contains("hidden")) {
                            errorMessage.classList.toggle("hidden");
                        }
-                       errorMessage.childNodes[0].textContent = obj.data.error;
+                       errorMessage.childNodes[1].textContent = obj.data.error;
                    } else {
                        if (errorMessage.classList.contains("hidden")) {
                            errorMessage.classList.toggle("hidden");
@@ -131,7 +130,7 @@ func handleFormSubmit() templ.ComponentScript {
        loginForm.addEventListener("submit", handleSubmit);
    });
 }`,
-		Call:       templ.SafeScript(`__templ_handleFormSubmit_2a05`),
-		CallInline: templ.SafeScriptInline(`__templ_handleFormSubmit_2a05`),
+		Call:       templ.SafeScript(`__templ_handleFormSubmit_0606`),
+		CallInline: templ.SafeScriptInline(`__templ_handleFormSubmit_0606`),
 	}
 }

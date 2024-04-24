@@ -1,6 +1,7 @@
 package app
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/go-playground/validator/v10"
@@ -26,12 +27,12 @@ func Run() {
 
 	userRepo := repository.NewUserRepository(db)
 	accountService := service.NewAccountService(userRepo)
-	accountHandler := handler.NewAccountHandler(v, decoder, sessionManager, accountService)
-
 	userService := service.NewUserService(userRepo)
+	accountHandler := handler.NewAccountHandler(v, decoder, sessionManager, accountService)
 	userHandler := handler.NewUserHandler(v, decoder, sessionManager, userService)
 
 	registerRoutes(r, indexHandler, accountHandler, userHandler)
 
+	fmt.Printf("Server running on port %s\n", ":3000")
 	http.ListenAndServe(":3000", r)
 }

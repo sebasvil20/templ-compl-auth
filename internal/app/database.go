@@ -3,6 +3,8 @@ package app
 import (
 	"database/sql"
 
+	"github.com/sebasvil20/templ-compl-auth/internal/config"
+	"golang.org/x/crypto/bcrypt"
 	_ "modernc.org/sqlite"
 )
 
@@ -17,7 +19,9 @@ func initializeDatabase() (*sql.DB, error) {
 		return nil, err
 	}
 
-	_, err = db.Exec("INSERT INTO users (id, email, password, admin) VALUES ('9f8wzRjPME', 'sebas@gmail.com', '$2a$10$XCTAOEjZ6XA0kk9Ju5QaeOS412IBfOuiB6LPmCEhTuwAsvj/Dk5tO', 1)")
+	saltedPass := "123" + config.PasswordSalt
+	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(saltedPass), bcrypt.DefaultCost)
+	_, err = db.Exec("INSERT INTO users (id, email, password, admin) VALUES ('9f8wzRjPME', 'sebas@gmail.com', ?, 1)", hashedPassword)
 	if err != nil {
 		return nil, err
 	}

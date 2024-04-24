@@ -6,6 +6,7 @@ import (
 
 	"github.com/golang-jwt/jwt/v5"
 	nanoid "github.com/matoous/go-nanoid/v2"
+	"github.com/sebasvil20/templ-compl-auth/internal/config"
 	"github.com/sebasvil20/templ-compl-auth/internal/model"
 	"github.com/sebasvil20/templ-compl-auth/internal/repository"
 	"golang.org/x/crypto/bcrypt"
@@ -43,10 +44,10 @@ func (s *AccountService) Signup(ctx context.Context, user model.User) (*string, 
 
 	user.ID = id
 
-	salt := []byte("SUPERSECRETKEY")
-	password := []byte(user.Password + string(salt))
+	// Append the salt to the password
+	password := []byte(user.Password + config.PasswordSalt)
 
-	// Hashing the password with the default cost of 10
+	// Hash the password with the default cost of 10
 	hashedPassword, err := bcrypt.GenerateFromPassword(password, bcrypt.DefaultCost)
 	if err != nil {
 		panic(err)
@@ -67,7 +68,7 @@ func (s *AccountService) Login(ctx context.Context, credentials model.Credential
 		return nil, err
 	}
 
-	if err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(credentials.Password+"SUPERSECRETKEY")); err != nil {
+	if err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(credentials.Password+config.PasswordSalt)); err != nil {
 		return nil, errors.New("invalid credentials")
 	}
 
@@ -80,7 +81,7 @@ func (s *AccountService) generateToken(ctx context.Context, user model.User) (*s
 		"id":    user.ID,
 	})
 
-	tokenStr, err := token.SignedString([]byte("secret"))
+	tokenStr, err := token.SignedString(config.JWTSecret)
 	if err != nil {
 		return nil, err
 	}

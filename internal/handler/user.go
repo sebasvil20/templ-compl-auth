@@ -9,6 +9,7 @@ import (
 	"github.com/gorilla/schema"
 	"github.com/gorilla/sessions"
 	"github.com/sebasvil20/templ-compl-auth/internal/common"
+	"github.com/sebasvil20/templ-compl-auth/internal/config"
 	"github.com/sebasvil20/templ-compl-auth/internal/model"
 	"github.com/sebasvil20/templ-compl-auth/internal/service"
 	"github.com/sebasvil20/templ-compl-auth/internal/view/page"
@@ -64,7 +65,7 @@ func GetJWTClaimsFromSession(sessionManager *sessions.CookieStore, r *http.Reque
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 		}
-		return []byte("secret"), nil
+		return config.JWTSecret, nil
 	})
 	if err != nil {
 		return nil, err
